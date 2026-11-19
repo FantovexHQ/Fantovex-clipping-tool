@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fantovex Clipper</title>
+<style>
+:root{--bg:#060807;--card:#0d1210;--in:#131a17;--g:#00ff88;--mut:#8a9992;--bd:#1e2b25;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,sans-serif}
+body{background:var(--bg);color:#fff;min-height:100vh;padding:16px}
+.w{max-width:640px;margin:0 auto}
+h1{text-align:center;font-size:1.6rem;letter-spacing:2px;padding:14px 0 4px}h1 span{color:var(--g)}
+.tag{text-align:center;color:var(--g);font-size:.7rem;letter-spacing:4px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
+.up{display:block;border:2px dashed var(--bd);border-radius:12px;padding:26px 12px;text-align:center;cursor:pointer}
+.up b{color:var(--g)}#fn{margin-top:8px;font-size:.85rem;color:var(--g);word-break:break-all}
+input[type=file]{display:none}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.l{display:block;font-size:.7rem;color:var(--mut);text-transform:uppercase;margin-bottom:5px}
+input[type=number]{width:100%;background:var(--in);border:1px solid var(--bd);color:#fff;padding:10px;border-radius:8px;text-align:center;font-size:1rem}
+.tg{display:flex;justify-content:space-between;align-items:center;background:var(--in);border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:12px;font-size:.88rem}
+.tg input{width:22px;height:22px;accent-color:var(--g)}
+button{font:inherit;cursor:pointer}
+.b{width:100%;padding:14px;border:0;border-radius:10px;background:var(--g);color:#060807;font-weight:800;letter-spacing:1px}
+.b:disabled{background:#1d2924;color:#5b6e65;cursor:not-allowed}
+.s{background:transparent;border:1px solid var(--g);color:var(--g);border-radius:8px;padding:8px 10px;font-size:.78rem}
+.s:disabled{opacity:.4}
+#st{display:none;margin-top:12px;padding:12px;background:var(--in);border-left:3px solid var(--g);border-radius:6px;font-size:.85rem;color:var(--mut)}
+.pb{height:6px;background:#1a2420;border-radius:4px;margin-top:8px;overflow:hidden}#pf{height:100%;width:0;background:var(--g);transition:width .3s}
+.it{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--in);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:8px}
+.it small{display:block;color:var(--mut);margin-top:3px}
+.hy{color:var(--g);font-weight:700;font-size:.75rem;margin-left:6px}
+.ac{display:flex;gap:6px}
+#pv{width:100%;border-radius:10px;background:#000;max-height:230px;display:none}
+.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;color:var(--g);font-weight:700}
+.n{font-size:.75rem;color:var(--mut);text-align:center;margin-top:10px;line-height:1.5}
+canvas{display:none}
+#ed{position:sticky;top:0;z-index:5;background:var(--card);padding-bottom:8px}
+#pv{width:100%;max-height:42vh}
+.tr{position:relative;height:56px;margin:12px 14px 6px;background:#0a0f0d;border:1px solid var(--bd);border-radius:6px;touch-action:none}
+#wf{display:block;width:100%;height:100%}
+#sel{position:absolute;top:0;bottom:0;background:rgba(0,255,136,.18);border-top:2px solid var(--g);border-bottom:2px solid var(--g);pointer-events:none}
+.hd2{position:absolute;top:-5px;bottom:-5px;width:20px;margin-left:-10px;background:var(--g);border-radius:5px;touch-action:none;z-index:2}
+#ph{position:absolute;top:0;bottom:0;width:2px;background:#fff;pointer-events:none}
+.tt{display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--mut);padding:0 14px}
+.cc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:12px}
+.cc video{display:block;width:100%;aspect-ratio:16/9;background:#000;border-radius:8px;margin-bottom:8px}
+.ph0{aspect-ratio:16/9;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--g);font-weight:700;margin-bottom:8px;cursor:pointer}
+.bd{display:inline-block;background:#ffd24a;color:#000;font-weight:800;font-size:.68rem;padding:2px 6px;border-radius:4px;margin-right:6px}
+</style></head><body><div class="w">
+<h1>FANTOVEX <span>CLIPPER</span></h1><div class="tag">PLAY BEYOND LIMITS</div>
+
+<div class="card">
+<label class="up"><div style="font-size:2rem">⚡</div><div><b>Tap to select video</b></div><div id="fn">No file selected</div><input type="file" id="vi" accept="video/*"></label>
+<div class="row">
+<div><label class="l">Clips</label><input type="number" id="nc" value="10" min="1" max="50"></div>
+<div><label class="l">Before (s)</label><input type="number" id="bf" value="10" min="2" max="60"></div>
+<div><label class="l">Max after (s)</label><input type="number" id="af" value="18" min="2" max="60"></div>
+</div>
+<label class="tg"><span>Vertical 9:16 (Shorts / Reels)</span><input type="checkbox" id="vt" checked></label>
+<label class="tg"><span>Also watch screen action (a few min extra)</span><input type="checkbox" id="vz" checked></label>
+<label class="tg" id="aiw"><span>AI looks at the scenes and picks the best</span><input type="checkbox" id="ai"></label>
+<div id="gk" style="display:none;margin-bottom:12px"><label class="l">Gemini API key (stays on this phone only)</label><input type="password" id="gkey" placeholder="Paste key from aistudio.google.com" style="width:100%;background:var(--in);border:1px solid var(--bd);color:#fff;padding:10px;border-radius:8px;margin-bottom:8px"><label class="l">Gemini model</label><input type="text" id="gmod" value="gemini-2.5-flash" style="width:100%;background:var(--in);border:1px solid var(--bd);color:#fff;padding:10px;border-radius:8px"></div>
+<div class="n" id="fm" style="margin:0 0 12px"></div>
+<button class="b" id="ab" disabled>FIND HIGHLIGHTS</button>
+<div id="st"><div id="stt"></div><div class="pb"><div id="pf"></div></div></div>
+</div>
+
+<div class="card" id="rc" style="display:none">
+<div id="ed"><video id="pv" controls playsinline></video>
+<div id="tl" style="display:none"><div class="tr" id="trk"><canvas id="wf" width="600" height="56"></canvas><div id="sel"></div><div class="hd2" id="hi"></div><div class="hd2" id="ho"></div><div id="ph"></div></div>
+<div class="tt"><span id="tt"></span><button class="s" id="ps">▶ Play</button></div><input type="range" id="sk" min="0" max="1000" value="0" style="width:calc(100% - 28px);margin:8px 14px 0;accent-color:var(--g)"></div></div>
+<div class="hd" style="margin-top:12px"><span>CLIPS</span><span class="ac"><button class="s" id="cmp">AI compare</button><button class="s" id="srt">Sort: Best</button><button class="s" id="csv">CSV</button></span></div>
+<div id="ls"></div>
+<div class="n">Saving a clip takes as long as the clip itself (30 s clip = 30 s). Keep the screen on and stay on this page while it saves.</div>
+</div>
+<canvas id="cv"></canvas>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const v=$('pv'),cv=$('cv'),cx=cv.getContext('2d');
+let file,url,peaks=[],busy=false;
+const fmt=s=>{s=Math.floor(s);return[s/3600|0,s%3600/60|0,s%60].map(n=>String(n).padStart(2,'0')).join(':')};
+const sm=(a,w)=>{const p=new Float64Array(a.length+1);for(let i=0;i<a.length;i++)p[i+1]=p[i]+a[i];const h=w>>1;return Float32Array.from(a,(_,i)=>{const lo=Math.max(0,i-h),hi=Math.min(a.length,i+h+1);return(p[hi]-p[lo])/(hi-lo)})};
+function st(m,p){$('st').style.display='block';$('stt').textContent=m;if(p!=null)$('pf').style.width=p+'%'}
+
+$('vi').onchange=e=>{
+  file=e.target.files[0];if(!file)return;
+  if(url)URL.revokeObjectURL(url);
+  url=URL.createObjectURL(file);v.src=url;v.style.display='block';
+  $('fn').textContent=file.name+' ('+(file.size/1048576).toFixed(0)+' MB)';
+  $('ab').disabled=false;$('rc').style.display='none';
+};
+v.onerror=()=>st('This video could not be opened. Try an MP4 (H.264) file.',0);
+
+async function viaDecode(){
+  st('Reading audio (fast mode)...',20);
+  const buf=await file.arrayBuffer();
+  const ac=new (window.AudioContext||window.webkitAudioContext)({sampleRate:8000});
+  st('Decoding audio...',50);
+  const ab=await ac.decodeAudioData(buf);
+  const d=ab.getChannelData(0),sr=ab.sampleRate,n=Math.floor(d.length/sr),o=new Float32Array(n);
+  for(let s=0;s<n;s++){let q=0;for(let i=s*sr;i<(s+1)*sr;i++)q+=d[i]*d[i];o[s]=Math.sqrt(q/sr)}
+  ac.close();return o;
+}
+
+async function viaScan(){
+  const sv=document.createElement('video');sv.src=url;sv.playsInline=true;sv.preload='auto';
+  await new Promise((r,j)=>{sv.onloadedmetadata=r;sv.onerror=j});
+  const dur=sv.duration,n=Math.ceil(dur),sq=new Float64Array(n),ct=new Float64Array(n);
+  const vm=new Float32Array(n);let prv=null;
+  let heard=0,rt=8,tick=0,t0=Date.now();
+  const ac=new (window.AudioContext||window.webkitAudioContext)();
+  const src=ac.createMediaElementSource(sv),pr=ac.createScriptProcessor(4096,1,1),z=ac.createGain();
+  z.gain.value=0;src.connect(pr);pr.connect(z);z.connect(ac.destination);
+  pr.onaudioprocess=e=>{const d=e.inputBuffer.getChannelData(0);let q=0;for(let i=0;i<d.length;i++)q+=d[i]*d[i];const k=Math.min(n-1,sv.currentTime|0);sq[k]+=q;ct[k]+=d.length;heard+=q};
+  let wl=null;try{wl=await navigator.wakeLock.request('screen')}catch(e){}
+  sv.playbackRate=rt;await ac.resume();await sv.play();t0=Date.now();
+  await new Promise(r=>{
+    const t=setInterval(()=>{tick++;if(tick===20&&!heard&&rt>2){rt=rt>4?4:2;sv.playbackRate=rt;tick=0}const sp=sv.currentTime/((Date.now()-t0)/1000+.1);st('Scanning at '+rt+'x. Keep screen on. '+fmt(sv.currentTime)+' / '+fmt(dur)+' · about '+Math.ceil((dur-sv.currentTime)/Math.max(sp,.5)/60)+' min left',sv.currentTime/dur*100);try{const d=grab(sv);if(prv){const k=Math.min(n-1,sv.currentTime|0);vm[k]=Math.max(vm[k],dif(d,prv))}prv=d}catch(e){}},300);
+    sv.onended=()=>{clearInterval(t);r()};
+  });
+  if(wl)wl.release();ac.close();sv.removeAttribute('src');sv.load();VIS=fill(vm);
+  return Float32Array.from(sq,(x,i)=>ct[i]?Math.sqrt(x/ct[i]):0);
+}
+
+let VIS=null,AIS=null;
+if(window.claude)claude.use('sample').then(s=>{AIS=s;if(!s)$('aiw').style.display='none'}).catch(()=>{$('aiw').style.display='none'});
+else{
+  $('gk').style.display='block';$('gkey').value=localStorage.getItem('gkey')||'';
+  $('gmod').value=localStorage.getItem('gmod')||$('gmod').value;$('ai').checked=!!$('gkey').value;
+  AIS={json:async(prompt,o)=>{
+    const key=$('gkey').value.trim(),mod=$('gmod').value.trim();
+    if(!key)throw{code:'no_key'};
+    try{localStorage.setItem('gkey',key);localStorage.setItem('gmod',mod)}catch(e){}
+    const b64=await new Promise(r=>{const f=new FileReader();f.onload=()=>r(String(f.result).split(',')[1]);f.readAsDataURL(o.images[0])});
+    const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+mod+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents:[{parts:[{text:prompt},{inline_data:{mime_type:'image/jpeg',data:b64}}]}],generationConfig:{responseMimeType:'application/json'}})});
+    if(!res.ok)throw{code:'gemini_'+res.status};
+    const j=await res.json();return JSON.parse(j.candidates[0].content.parts[0].text);
+  }};
+}
+const SC=document.createElement('canvas');SC.width=48;SC.height=27;
+const sx=SC.getContext('2d',{willReadFrequently:true});
+const grab=el=>{sx.drawImage(el,0,0,48,27);return sx.getImageData(0,0,48,27).data};
+const dif=(a,b)=>{let s=0;for(let i=0;i<a.length;i+=4)s+=Math.abs(a[i]-b[i])+Math.abs(a[i+1]-b[i+1])+Math.abs(a[i+2]-b[i+2]);return s/(a.length/4*765)};
+const fill=a=>{for(let i=1;i<a.length;i++)if(!a[i])a[i]=a[i-1];return a};
+
+async function rate(pk){
+  const fv=document.createElement('video');fv.src=url;fv.muted=true;fv.playsInline=true;fv.preload='auto';
+  await new Promise((r,j)=>{fv.onloadedmetadata=r;fv.onerror=j});
+  const TW=240,TH=135,C=4;
+  for(let b=0;b<pk.length;b+=12){
+    const grp=pk.slice(b,b+12),R=Math.ceil(grp.length/C),c2=document.createElement('canvas');
+    c2.width=TW*C;c2.height=TH*R;const g=c2.getContext('2d');g.fillStyle='#000';g.fillRect(0,0,c2.width,c2.height);
+    for(let i=0;i<grp.length;i++){
+      fv.currentTime=grp[i].peak;await new Promise(r=>fv.onseeked=r);
+      const x=i%C*TW,y=(i/C|0)*TH;g.drawImage(fv,x,y,TW,TH);
+      g.fillStyle='#ff0';g.font='bold 22px sans-serif';g.fillText(String(i+1),x+6,y+24);
+    }
+    st('AI is looking at scenes ('+Math.min(b+12,pk.length)+'/'+pk.length+')...',90);
+    const blob=await new Promise(r=>c2.toBlob(r,'image/jpeg',.7));
+    const out=await AIS.json('This image is a grid of numbered frames (yellow numbers, 4 per row) from a gaming video or stream. Rate each frame 1-10 for how clip-worthy the moment looks: explosions, chases, crashes, fights, funny or dramatic scenes and big on-screen text like WASTED score high; menus, loading screens, maps and calm empty scenes score low. Reply with JSON only: [{"n":1,"score":7,"why":"max 5 words"}] for all '+grp.length+' frames.',{images:[blob],modelTier:'quick'});
+    (Array.isArray(out)?out:[]).forEach(o=>{const p=grp[o.n-1];if(p){p.ai=+o.score;p.why=String(o.why||'')}});
+  }
+  fv.removeAttribute('src');fv.load();
+}
+
+async function viaSeek(){
+  const sv=document.createElement('video');sv.src=url;sv.muted=true;sv.playsInline=true;sv.preload='auto';
+  await new Promise((r,j)=>{sv.onloadedmetadata=r;sv.onerror=j});
+  const dur=sv.duration,vm=new Float32Array(Math.ceil(dur)),step=Math.max(2,Math.ceil(dur/1800));
+  let prv=null;
+  for(let t=0;t<dur;t+=step){
+    sv.currentTime=t;await new Promise(r=>sv.onseeked=r);
+    const d=grab(sv);if(prv)vm[t|0]=dif(d,prv);prv=d;
+    if((t/step|0)%10===0)st('Watching screen action '+fmt(t)+' / '+fmt(dur),t/dur*100);
+  }
+  sv.removeAttribute('src');sv.load();return fill(vm);
+}
+
+$('ab').onclick=async()=>{
+  if(busy||!file)return;busy=true;$('ab').disabled=true;$('rc').style.display='none';
+  try{
+    let loud=null;VIS=null;
+    if(file.size<7e8){try{loud=await viaDecode()}catch(e){loud=null}}
+    if(!loud)loud=await viaScan();
+    if(!loud.some(x=>x>0))throw new Error('no audio');
+    let vis=null;
+    if($('vz').checked){vis=VIS;if(!vis){try{vis=await viaSeek()}catch(e){vis=null}}}
+    st('Scoring moments...',95);
+    const zs=a=>{const s=Float32Array.from(a).sort(),m=s[s.length>>1],d=Float32Array.from(a,x=>Math.abs(x-m)).sort(),md=(d[d.length>>1]*1.4826)||1e-6;return Float32Array.from(a,x=>(x-m)/md)};
+    const fast=sm(loud,5),base=sm(loud,300);let sc=zs(fast.map((x,i)=>x/(base[i]+1e-6)));
+    if(vis&&vis.some(x=>x>0)){const vv=Float32Array.from(loud,(_,i)=>vis[i]||0),vf=sm(vv,5),vb=sm(vv,300);const zv=zs(vf.map((x,i)=>x/(vb[i]+1e-6)));sc=sc.map((a,i)=>.6*a+.4*zv[i])}
+    const nc=+$('nc').value||10,bf=+$('bf').value||10,af=+$('af').value||18,gap=bf+af;
+    const ai=$('ai').checked&&AIS,K=ai?Math.min(24,nc*2):nc;
+    const idx=[...sc.keys()].sort((a,b)=>sc[b]-sc[a]),pk=[];
+    for(const t of idx){
+      if(pk.every(p=>Math.abs(t-p.peak)>=gap)){let tp=t;for(let j=Math.max(0,t-3);j<Math.min(loud.length,t+4);j++)if(loud[j]>loud[tp])tp=j;const s=Math.max(0,tp-bf);pk.push({peak:tp,start:s,len:(()=>{let e=tp+3;const th=base[tp]+.3*(fast[tp]-base[tp]);while(e<Math.min(loud.length-1,tp+af)&&fast[e]>th)e++;return Math.max(bf+4,Math.min(loud.length-s,e+2-s))})(),score:sc[t]})}
+      if(pk.length>=K)break;
+    }
+    if(ai&&pk.length>nc){
+      try{await rate(pk)}catch(e){st('AI unavailable ('+(e.code||'error')+'). Using audio + screen only.',95)}
+      const mx=Math.max(...pk.map(p=>p.score));
+      pk.forEach(p=>p.fin=p.ai!=null?.5*p.ai/10+.5*p.score/mx:p.score/mx);
+      pk.sort((a,b)=>b.fin-a.fin);pk.length=nc;
+    }
+    peaks=pk.sort((a,b)=>a.start-b.start);
+    LOUD=loud;list();st('Done. Found '+peaks.length+' clips.',100);
+  }catch(e){
+    console.error(e);
+    st('Could not analyse this video (no audio, or the phone ran out of memory). Try a shorter or smaller file.',0);
+  }
+  busy=false;$('ab').disabled=false;
+};
+
+function list(){
+  $('ls').innerHTML='';
+  peaks.forEach((c,i)=>{
+    const d=document.createElement('div');d.className='it';
+    d.innerHTML='<div><b>#'+String(i+1).padStart(2,'0')+' &bull; '+fmt(c.start)+'</b><span class="hy">'+c.score.toFixed(1)+'</span><small>'+c.len+' s clip'+(c.why?' · '+c.why:'')+'</small></div><div class="ac"><button class="s">Preview</button><button class="s">Save</button></div>';
+    const [pv,sv]=d.querySelectorAll('button');
+    pv.onclick=()=>{v.currentTime=c.start;v.play();v.scrollIntoView({behavior:'smooth',block:'center'})};
+    sv.onclick=()=>save(i,sv);
+    $('ls').appendChild(d);
+  });
+  $('rc').style.display='block';
+}
+
+async function save(i,btn){
+  if(busy)return;busy=true;
+  const c=peaks[i],vert=$('vt').checked,old=btn.textContent;
+  document.querySelectorAll('#ls button,#ab').forEach(b=>b.disabled=true);
+  btn.textContent='Saving...';REC=true;
+  try{
+    if(vert){cv.width=720;cv.height=1280}else{cv.width=v.videoWidth||1280;cv.height=v.videoHeight||720}
+    v.pause();v.currentTime=c.start;await new Promise(r=>v.onseeked=r);v.muted=false;
+    await v.play();
+    const vs=cv.captureStream(30),at=v.captureStream?v.captureStream().getAudioTracks():[];
+    const ms=new MediaStream([...vs.getVideoTracks(),...at]);
+    const mt=['video/mp4;codecs=avc1,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));
+    const rec=new MediaRecorder(ms,{mimeType:mt,videoBitsPerSecond:4e6}),ch=[];
+    rec.ondataavailable=e=>{if(e.data.size)ch.push(e.data)};
+    const done=new Promise(r=>rec.onstop=r);
+    rec.start();
+    const end=c.start+c.len;
+    await new Promise(r=>{
+      const draw=()=>{
+        if(vert){
+          const W=v.videoWidth,H=v.videoHeight,k=Math.max(cv.width/W,cv.height/H);
+          cx.save();cx.filter='blur(20px) brightness(.6)';cx.drawImage(v,(cv.width-W*k)/2,(cv.height-H*k)/2,W*k,H*k);cx.restore();
+          const h=H*cv.width/W;cx.drawImage(v,0,(cv.height-h)/2,cv.width,h);
+        }else cx.drawImage(v,0,0,cv.width,cv.height);
+        if(v.currentTime>=end||v.ended||v.paused)return r();
+        requestAnimationFrame(draw);
+      };draw();
+    });
+    v.pause();rec.stop();await done;
+    const ext=mt.includes('mp4')?'mp4':'webm';
+    const bl=new Blob(ch,{type:mt});
+    const fnm='Fantovex_Clip_'+String(i+1).padStart(2,'0')+'_'+fmt(c.start).replace(/:/g,'-')+'.'+ext;
+    await dlsave(fnm,bl);btn.textContent='Saved ✓';
+  }catch(e){console.error(e);btn.textContent=e&&e.code==='declined'?'Cancelled':'Failed';st('Save problem: '+((e&&(e.code||e.message))||'unknown'),0)}
+  setTimeout(()=>btn.textContent=old,3000);
+  REC=false;busy=false;document.querySelectorAll('#ls button,#ab').forEach(b=>b.disabled=false);
+}
+
+const MT=['video/mp4;codecs=avc1,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm'].find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported(t));
+$('fm').textContent=MT&&MT.includes('mp4')?'Clips will save as MP4 ✓':'This browser saves WEBM, not MP4. Update Chrome from the Play Store to get MP4.';
+let LOUD=null,CUR=-1,SORT='best',SEL=false,ws=0,we=1;
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.src=e.target.dataset.s;io.unobserve(e.target)}}),{rootMargin:'200px'});
+const fr=c=>url+'#t='+c.start+','+(c.start+c.len);
+const meta=c=>fmt(c.start)+' · '+c.len+' s'+((c.jwhy||c.why)?' · '+(c.jwhy||c.why):'');
+const px=t=>(t-ws)/(we-ws)*100;
+
+function list(){
+  const mx=Math.max(...peaks.map(p=>p.score),1e-6);
+  peaks.forEach(p=>{p.fin=p.ai!=null?.5*p.ai/10+.5*p.score/mx:p.score/mx;if(p.jd!=null)p.fin=.3*p.fin+.7*p.jd/100});
+  const best=peaks.map((_,i)=>i).sort((a,b)=>peaks[b].fin-peaks[a].fin),rank={};
+  best.forEach((i,r)=>rank[i]=r+1);
+  const ord=SORT==='best'?best:peaks.map((_,i)=>i);
+  $('ls').innerHTML='';
+  ord.forEach(i=>{
+    const c=peaks[i],d=document.createElement('div');d.className='cc';d.id='cc'+i;
+    d.innerHTML='<video playsinline controls preload
